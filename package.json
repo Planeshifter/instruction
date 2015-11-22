@@ -1,0 +1,26 @@
+{
+  "name": "@planeshifter/instruction",
+  "version": "1.0.0",
+  "description": "Introduction to Probability Distributions and Hypothesis Testing.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node_modules/.bin/beefy js/script.js:bundle.js 8000 --live"
+  },
+  "author": {
+    "name": "Philipp Burckhardt",
+    "email": "pburckhardt@outlook.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@planeshifter/feedback-buttons": "0.0.1",
+    "compute-linspace": "^1.0.0",
+    "compute-roundn": "^1.0.3",
+    "d3": "^3.5.9",
+    "distributions-normal-quantile": "0.0.0",
+    "qality": "^0.1.1"
+  },
+  "devDependencies": {
+    "beefy": "^2.1.5",
+    "browserify": "^12.0.1"
+  }
+}
