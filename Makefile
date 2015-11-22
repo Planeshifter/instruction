@@ -71,7 +71,6 @@ TESTS ?= test/*.js
 
 deploy: build
 	mkdir $(BUILDDIR)
-	mkdir $(BUILDDIR)/$(DIST)
 	cp -r css/ $(BUILDDIR)/css
 	cp -r vendor/ $(BUILDDIR)/vendor
 	cp -r node_modules/ $(BUILDDIR)/node_modules

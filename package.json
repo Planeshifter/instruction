@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@planeshifter/feedback-buttons": "0.0.1",
+    "@planeshifter/feedback-buttons": "^0.3.0",
     "compute-linspace": "^1.0.0",
     "compute-roundn": "^1.0.3",
     "d3": "^3.5.9",
