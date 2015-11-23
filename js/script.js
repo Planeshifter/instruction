@@ -1,10 +1,15 @@
+'use struct';
+
 // MODULES //
 
-var d3 = require( 'd3' ),
+var $ = require( 'jquery' ),
+	d3 = require( 'd3' ),
 	qNorm = require( 'distributions-normal-quantile' ),
 	pdfNorm = require( 'distributions-normal-pdf' ),
 	linspace = require( 'compute-linspace' ),
 	round = require( 'compute-roundn' );
+
+require( '@planeshifter/feedback-buttons' );
 
 function Plot( data, id, width, height ) {
 	this.data = data;
@@ -193,6 +198,7 @@ $( document ).ready( function onReady() {
 
 
 	// Add Quizzes:
+
 	new QAlity(
 	{"sequence":{"nodes":[{"id":0,"type":"multiple_choice","right_value":0,"question":"If the observed value of the test statistic is \\\\( Z_{obs} = 4.2 \\\\), can we reject the null hypothesis at a significance level of \\\\( \\alpha = 0.01 \\\\)?","transition_in":"dynamic","transition_out":"dynamic","answers":[{"text":"Yes","points":1,"assessment":"ASSESSMENT"},{"text":"No","points":0,"assessment":"ASSESSMENT"}],"duration":0,"setting":null,"background":"none","element":{}},{"id":1,"type":"multiple_choice","right_value":1,"question":"If the observed value of the test statistic is \\\\( Z_{obs} = 1.5 \\\\), can we reject the null hypothesis at a significance level of \\\\( \\alpha = 0.05 \\\\)?","transition_in":"dynamic","transition_out":"dynamic","answers":[{"text":"Yes","points":0,"assessment":"ASSESSMENT"},{"text":"No","points":1,"assessment":"ASSESSMENT"}],"duration":0,"setting":null,"background":"none","element":{}}]},"evaluation":{"seperator":[{"start":0.33,"id":0},{"start":0.66,"id":1}],"sorted":[],"ranges":[{"id":0,"text":"RANGE 1","start":0,"end":0.33},{"id":1,"text":"RANGE 2","start":0.33,"end":0.66},{"id":2,"text":"RANGE 3","start":0.66,"end":1}]}},
 	{

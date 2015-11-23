@@ -2,6 +2,7 @@
 # Files #
 #########
 bundle.js
+bundle.min.js
 
 # Directories #
 ###############

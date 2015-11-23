@@ -5,6 +5,7 @@
 # BROWSERIFY  #
 
 BROWSERIFY ?= ./node_modules/.bin/browserify
+UGLIFY ?= ./node_modules/.bin/uglifyjs
 
 # Set the node.js environment to test:
 NODE_ENV ?= test
@@ -70,14 +71,15 @@ TESTS ?= test/*.js
 .PHONY: deploy
 
 deploy: build
+	rm $(BUILDDIR) -rf
 	mkdir $(BUILDDIR)
 	cp -r css/ $(BUILDDIR)/css
 	cp -r vendor/ $(BUILDDIR)/vendor
-	cp -r node_modules/ $(BUILDDIR)/node_modules
 	cp index.html $(BUILDDIR)/index.html
 	cp CNAME $(BUILDDIR)/CNAME
-	cp bundle.js $(BUILDDIR)/bundle.js
+	cp bundle.min.js $(BUILDDIR)/bundle.min.js
 	cd $(BUILDDIR) && \
+	sed -i 's/bundle.js/bundle.min.js/g'  index.html && \
 	git init . && \
 	git add . && \
 	git commit -m "deploy page"; \
@@ -91,7 +93,7 @@ deploy: build
 
 build:
 	$(BROWSERIFY) js/script.js --exclude jquery --outfile bundle.js
-
+	$(UGLIFY) bundle.js --compress --output bundle.min.js
 
 # NOTES #
 
