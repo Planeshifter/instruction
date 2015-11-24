@@ -76,6 +76,7 @@ deploy: build
 	mkdir $(BUILDDIR)
 	cp -r css/ $(BUILDDIR)/css
 	cp -r vendor/ $(BUILDDIR)/vendor
+	cp -r bower_components/ $(BUILDDIR)/bower_components
 	cp index.html $(BUILDDIR)/index.html
 	cp CNAME $(BUILDDIR)/CNAME
 	cp bundle.min.js $(BUILDDIR)/bundle.min.js
