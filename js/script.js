@@ -4,12 +4,21 @@
 
 var $ = require( 'jquery' ),
 	d3 = require( 'd3' ),
+	QAlity = require( 'qality' ),
 	qNorm = require( 'distributions-normal-quantile' ),
 	pdfNorm = require( 'distributions-normal-pdf' ),
-	linspace = require( 'compute-linspace' ),
+	isnan = require( 'validate.io-nan' ),
 	round = require( 'compute-roundn' );
 
+global.compute = require( 'compute.io' );
+global.matrix = require( 'dstructs-matrix' );
+
 require( '@planeshifter/feedback-buttons' );
+
+// FUNCTIONS //
+
+var createGlobals = require( './createGlobals.js' );
+createGlobals( global.compute );
 
 function Plot( data, id, width, height ) {
 	this.data = data;
@@ -142,7 +151,7 @@ Plot.prototype.updateArea = function updateArea( val, type ) {
 */
 $( document ).ready( function onReady() {
 	var data = {},
-		plot1, plot2;
+		plotGaussian, plot1, plot2;
 
 	$( '[data-toggle="tooltip"]' ).tooltip();
 
@@ -160,6 +169,9 @@ $( document ).ready( function onReady() {
 			};
 			return o;
 		});
+
+	plotGaussian = new Plot( data, 'plotGaussian', 500, 250 );
+	plotGaussian.linePlot();
 
 	plot1 = new Plot( data, 'plot1', 500, 250 );
 	plot1.linePlot();
@@ -187,23 +199,56 @@ $( document ).ready( function onReady() {
 		}
 	});
 
+	var element3 = document.getElementById( 'example3' );
+	var tangle3 = new Tangle( element3, {
+		initialize: function () {
+			this.mean = 0;
+			this.sd = 0;
+			this.obs = 0;
+			this.conclusion = false;
+		},
+		update: function() {
+			var result = Math.sqrt( this.obs ) * this.mean / this.sd;
+			if ( Math.abs( result ) > 1.96 ) {
+				this.conclusion = false;
+			} else {
+				this.conclusion = true;
+			}
+			if ( !isnan( result ) ) {
+				result = round( result, -2 );
+			}
+			var eqn = '\\sqrt{' + this.obs + '} * \\frac{' + this.mean + ' - 0}{' + this.sd + '} = ' + result;
+			katex.render( 'z_{obs} = \\sqrt{n} \\frac{\\bar x -\\mu_0}{\\sigma} = ' + eqn, document.getElementById( 'eqZobs2' ) );
+		}
+	});
 
 	// Render Equations:
 
+	katex.render( 'H_0: \\mu \\geq 0 \\text{ against } H_1: \\mu < 0 ', document.getElementById( 'eqDrink' ) );
 	katex.render( 'X_1, \\ldots, X_n \\sim Norm( \\mu, \\sigma^2 ) ', document.getElementById( 'eqData' ) );
 	katex.render( "H_0: \\mu \\leq \\mu_0 \\qquad H_1: \\mu > \\mu_0",  document.getElementById( 'eqHypo' ) );
 	katex.render( "Z = \\sqrt{n} \\frac{\\bar X-\\mu_0}{\\sigma}", document.getElementById( 'eq1' ) );
+	katex.render( '\\bar X \\sim Norm( \\mu_0, \\tfrac{\\sigma^2}{n} ) ', document.getElementById( 'eqMeanDist' ) );
 	katex.render( "H_0: \\mu = \\mu_0 \\qquad H_1: \\mu \\ne \\mu_0",  document.getElementById( 'eqHypo2' ) );
 	katex.render( "z_{obs} = \\sqrt{n} \\frac{\\bar x -\\mu_0}{\\sigma} = 20 \\frac{0.03}{2} = 3", document.getElementById( 'eqZobs' ) );
-
+	katex.render( "z_{obs} = \\sqrt{n} \\frac{\\bar x -\\mu_0}{\\sigma} = ", document.getElementById( 'eqZobs2' ) );
 
 	// Add Quizzes:
 
-	new QAlity(
+	var quiz02 = new QAlity(
 	{"sequence":{"nodes":[{"id":0,"type":"multiple_choice","right_value":0,"question":"If the observed value of the test statistic is \\\\( Z_{obs} = 4.2 \\\\), can we reject the null hypothesis at a significance level of \\\\( \\alpha = 0.01 \\\\)?","transition_in":"dynamic","transition_out":"dynamic","answers":[{"text":"Yes","points":1,"assessment":"ASSESSMENT"},{"text":"No","points":0,"assessment":"ASSESSMENT"}],"duration":0,"setting":null,"background":"none","element":{}},{"id":1,"type":"multiple_choice","right_value":1,"question":"If the observed value of the test statistic is \\\\( Z_{obs} = 1.5 \\\\), can we reject the null hypothesis at a significance level of \\\\( \\alpha = 0.05 \\\\)?","transition_in":"dynamic","transition_out":"dynamic","answers":[{"text":"Yes","points":0,"assessment":"ASSESSMENT"},{"text":"No","points":1,"assessment":"ASSESSMENT"}],"duration":0,"setting":null,"background":"none","element":{}}]},"evaluation":{"seperator":[{"start":0.33,"id":0},{"start":0.66,"id":1}],"sorted":[],"ranges":[{"id":0,"text":"RANGE 1","start":0,"end":0.33},{"id":1,"text":"RANGE 2","start":0.33,"end":0.66},{"id":2,"text":"RANGE 3","start":0.66,"end":1}]}},
+	{
+		"div": "quiz02",
+		"exit": false
+	});
+
+	var quiz01 = new QAlity(
+	{"sequence":{"nodes":[{"id":0,"type":"multiple_choice","right_value":0,"question":"The significance level \\\\( \\alpha \\\\) is equal to","transition_in":"dynamic","transition_out":"dynamic","answers":[{"text":"the probability of the type 1 error","points":1,"assessment":"Yes, that's correct."},{"text":"the probability of the type 2 error","points":0,"assessment":"Please review the preceding paragraph."},{"text":"neither","points":0,"assessment":"Please review the preceding paragraph."}],"duration":0,"setting":null,"background":"none","element":{},"chosen":0},{"id":1,"type":"multiple_choice","right_value":0,"question":"What is the type 1 error?","transition_in":"dynamic","transition_out":"dynamic","answers":[{"text":"When we reject H0 even though it is correct.","points":1,"assessment":"Yes, that's correct."},{"text":"When we fail to reject H0 even though it is false.","points":0,"assessment":"Review the table above."}],"duration":0,"setting":null,"background":"none","element":{},"chosen":1},{"id":2,"type":"multiple_choice","right_value":2,"question":"You have been asked by a prosecutor investigating whether a company polluted the environment to analyze soil samples and check whether they contain more than the maximum allowed amount of lead, 600 ppm. If μ denotes the mean lead level in the soil, set up the corresponding null and alternative hypotheses for this test.","transition_in":"dynamic","transition_out":"dynamic","answers":[{"text":"H0: μ >= 600 vs. H1: μ < 600","points":0,"assessment":"Recall that you want to set as H1 what you like to show. Think about it: If you accuse the company of pollutting, you better are sure about it, so you want to control the error probability."},{"text":"H0: μ = 600 vs. H1: μ != 600","points":0,"assessment":"Think again: Are we interested in deviations in both directions or only in one?"},{"text":"H0: μ <= 600 vs. H1: μ > 600","points":1,"assessment":"Yes, what we wish to demonstrate we set as our alternative hypothesis."}],"duration":0,"setting":null,"background":"none","element":{},"chosen":1}]},"evaluation":{"seperator":[{"start":0.33,"id":0},{"start":0.66,"id":1}],"sorted":[],"ranges":[{"id":0,"text":"RANGE 1","start":0,"end":0.33},{"id":1,"text":"RANGE 2","start":0.33,"end":0.66},{"id":2,"text":"RANGE 3","start":0.66,"end":1}]}},
 	{
 		"div": "quiz01",
 		"exit": false
 	});
+
+
 
 });

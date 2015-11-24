@@ -4,9 +4,9 @@
   "description": "Introduction to Probability Distributions and Hypothesis Testing.",
   "main": "index.js",
   "scripts": {
-    "start": "node_modules/.bin/beefy js/script.js:bundle.js 8000 --live",
-    "browserify": "node_modules/.bin/browserify js/script.js --exclude jquery --outfile bundle.js",
-    "uglify": "node_modules/.bin/uglifyjs bundle.js --compress --output bundle.min.js"
+    "start": "beefy js/script.js:bundle.js 8000 --live",
+    "browserify": "browserify js/script.js --exclude jquery -t babelify --outfile bundle.js",
+    "uglify": "uglifyjs bundle.js --compress --output bundle.min.js"
   },
   "author": {
     "name": "Philipp Burckhardt",
@@ -17,10 +17,15 @@
     "@planeshifter/feedback-buttons": "^0.3.0",
     "compute-linspace": "^1.0.0",
     "compute-roundn": "^1.0.3",
+    "compute.io": "^0.106.0",
     "d3": "^3.5.9",
-    "distributions-normal-quantile": "0.0.0"
+    "distributions-normal-quantile": "0.0.0",
+    "dstructs-matrix": "^2.0.2",
+    "qality": "^0.1.4",
+    "validate.io-nan": "^1.0.3"
   },
   "devDependencies": {
+    "babelify": "7.x.x",
     "beefy": "^2.1.5",
     "browserify": "^12.0.1",
     "browserify-shim": "^3.8.11",
@@ -28,6 +33,7 @@
   },
   "browserify": {
     "transform": [
+      "babelify",
       "browserify-shim"
     ]
   },

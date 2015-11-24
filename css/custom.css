@@ -29,6 +29,16 @@
 	width: 55%;
 	/* border: solid 1px black; */
 	box-shadow: 0 0 2px darkgrey;
-	height: 400px;
+	height: 350px;
+	background: white;
+}
+
+
+#quiz02 {
+	position: relative;
+	width: 55%;
+	/* border: solid 1px black; */
+	box-shadow: 0 0 2px darkgrey;
+	height: 250px;
 	background: white;
 }

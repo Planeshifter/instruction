@@ -5,6 +5,7 @@
 # BROWSERIFY  #
 
 BROWSERIFY ?= ./node_modules/.bin/browserify
+BABELIFY ?= ./node_modules/babelify
 UGLIFY ?= ./node_modules/.bin/uglifyjs
 
 # Set the node.js environment to test:
@@ -92,7 +93,7 @@ deploy: build
 .PHONY: build
 
 build:
-	$(BROWSERIFY) js/script.js --exclude jquery --outfile bundle.js
+	$(BROWSERIFY) js/script.js --exclude jquery -t $(BABELIFY) --outfile bundle.js
 	$(UGLIFY) bundle.js --compress --output bundle.min.js
 
 # NOTES #
