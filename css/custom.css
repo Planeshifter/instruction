@@ -42,3 +42,13 @@
 	height: 250px;
 	background: white;
 }
+
+#fb_feedback {
+	left: 65%;
+	right: 3%;
+}
+
+.icon {
+	height: 20px;
+	width: 20px;
+}

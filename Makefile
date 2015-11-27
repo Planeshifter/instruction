@@ -74,6 +74,7 @@ TESTS ?= test/*.js
 deploy: build
 	rm $(BUILDDIR) -rf
 	mkdir $(BUILDDIR)
+	cp -r img/ $(BUILDDIR)/img
 	cp -r css/ $(BUILDDIR)/css
 	cp -r vendor/ $(BUILDDIR)/vendor
 	cp -r bower_components/ $(BUILDDIR)/bower_components

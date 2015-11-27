@@ -123,6 +123,9 @@
 				</p>
 				<p>
 					Let's review some of the basic definitions of hypothesis testing:
+					<span class="marginnote">
+					Quiz
+					</span>
 				</p>
 				<div id="quiz01"></div>
 				<p>
@@ -156,6 +159,9 @@
 				</p>
 				<p>
 					The PDF of our test statistic Z under the null is thus the famous bell-shaped curve displayed in the following plot:
+					<span class="marginnote">
+					Plot of the PDF of a standard normal distribution with mean zero and standard deviation one.
+					</span>
 				</p>
 				<div id="plotGaussian"></div>
 				<p>Large values of the test statistic are inconsistent
@@ -173,7 +179,11 @@
 					The resulting rejection region for the <span data-var="type"></span> location test is displayed as the shaded region in the following plot.
 				</p>
 				<div id="plot1" class="fb" style="width:50%"></div>
-				<p> Check your understanding by answering the following multiple-choice quiz: </p>
+				<p> Check your understanding by answering the following multiple-choice quiz:
+					<span class="marginnote">
+					Quiz
+					</span>
+				</p>
 				<div id="quiz02"></div>
 				<p>
 					<span class="newthought">Let us consider</span> the following example:
@@ -211,13 +221,13 @@
 				<span class="marginnote">
 				Worked Example
 				</span>
-				<span class="newthought">A researcher is interested</span> in the effectiveness of a new set of instructional materials for the class room. He gathered data on how the grades of pupils at school changed on average after
+				<span class="newthought">A researcher is interested</span> in the effectiveness of a new set of instructional materials for the classroom. He gathered data on how the grades of pupils at school changed on average after
 				using the new material. The change in GPA (Grade Point Average) after using the new material for 10 students was collected:
 				<polymer-codebox code="var x = [ 0.2, -0.1, 0.01,
 	-0.1, 0.3, 0.4,
 	-0.2, -0.3, 0.3, 0.5
 ];"></polymer-codebox>
-				Is there sufficient evidence that the GPA changed significantly after the new material was introduced? Conduct a two-sided hypothesis test at a
+				Is there sufficient evidence that the GPA changed after the new material was introduced? Conduct a two-sided hypothesis test at a
 				significance level of α = 0.05.
 				</p>
 				<ol>
@@ -230,7 +240,7 @@
 							Since we have <div data-var="obs" class="TKNumberField"></div> observations in total,
 							the observed test statistic evaluates to
 							</nobr>
-							<div class="display" id="eqZobs2"></div>
+							<span class="display" id="eqZobs2"></span>
 							(Use the <code>mean</code> and <code>stdev</code> functions in above code box to calculate the mean and standard
 							deviation of the data, respectively. You can obtain the number of elements in the array via <code>x.length</code>)
 						</li>
@@ -240,6 +250,7 @@
 							<span>Since |z<sub>obs</sub>| < z, we fail to reject the null hypothesis at α = 0.01 and conclude that it seems as if the new course material is <b>not</b> effective.</span>
 						</div>
 						</li>
+						<span id="gpaExerciseResult"><img class="icon" src="img/incorrect.svg" /> Answer is not correct</span>
 					</div>
 				</ol>
 			</section>

@@ -156,7 +156,7 @@ $( document ).ready( function onReady() {
 	$( '[data-toggle="tooltip"]' ).tooltip();
 
 	// Add feedback buttons:
-	$( ".fb" ).feedback({
+	$( '.fb' ).feedback({
 		server: 'http://www.philipp-burckhardt.com',
 		port: 3333
 	});
@@ -178,7 +178,7 @@ $( document ).ready( function onReady() {
 	var element = document.getElementById( 'example' );
 	var tangle = new Tangle( element, {
 		initialize: function () {
-			this.alpha = 0.05;
+			this.alpha = 0.050;
 		},
 		update: function () {
 			this.critical = round( qNorm( 1 - this.alpha ), -2 );
@@ -191,9 +191,10 @@ $( document ).ready( function onReady() {
 	var element2 = document.getElementById( 'example2' );
 	var tangle2 = new Tangle( element2, {
 		initialize: function () {
-			this.alpha = 0.05;
+			this.alpha = 0.050;
 		},
 		update: function () {
+			console.log( this.alpha )
 			this.critical = round( qNorm( 1 - this.alpha / 2 ), -2 );
 			plot2.updateArea( this.critical, 'two-sided' );
 		}
@@ -215,7 +216,17 @@ $( document ).ready( function onReady() {
 				this.conclusion = true;
 			}
 			if ( !isnan( result ) ) {
-				result = round( result, -2 );
+				try {
+					result = round( result, -2 );
+				} catch( err ) {
+					result = result;
+				}
+				if ( result === 1.16 ) {
+					// If result is correct:
+					$( '#gpaExerciseResult' ).html( '<img class="icon" src="img/correct.svg" /> Answer is correct' );
+				} else {
+					$( '#gpaExerciseResult' ).html( '<img class="icon" src="img/incorrect.svg" /> Answer is not correct' );
+				}
 			}
 			var eqn = '\\sqrt{' + this.obs + '} * \\frac{' + this.mean + ' - 0}{' + this.sd + '} = ' + result;
 			katex.render( 'z_{obs} = \\sqrt{n} \\frac{\\bar x -\\mu_0}{\\sigma} = ' + eqn, document.getElementById( 'eqZobs2' ) );
