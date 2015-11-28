@@ -15,7 +15,7 @@ var BVTouchable = this.BVTouchable = new Class ({
 		this.delegate = delegate;
 		this.setTouchable(true);
 	},
-	
+
 	//----------------------------------------------------------------------------------
 	//
 	//  touches
@@ -46,19 +46,20 @@ var BVTouchable = this.BVTouchable = new Class ({
 			this.element.removeEvents("touchstart");
 		}
 	},
-	
+
 	touchDidGoDown: function (touches) { this.delegate.touchDidGoDown(touches); },
 	touchDidMove: function (touches) { this.delegate.touchDidMove(touches);  },
 	touchDidGoUp: function (touches) { this.delegate.touchDidGoUp(touches);  },
 
-	
+
 	_mouseDown: function (event) {
 		event.stop();
+
 		this.element.getDocument().addEvents({
 			mousemove: this._mouseBound.mouseMove,
 			mouseup: this._mouseBound.mouseUp
 		});
-	
+
 		this.touches = new BVTouches(event);
 		this.touchDidGoDown(this.touches);
 	},
@@ -74,7 +75,7 @@ var BVTouchable = this.BVTouchable = new Class ({
 		this.touches.updateWithEvent(event);
 		this.touches.count = 0;
 		this.touchDidGoUp(this.touches);
-		
+
 		delete this.touches;
 		this.element.getDocument().removeEvents({
 			mousemove: this._mouseBound.mouseMove,
@@ -85,17 +86,16 @@ var BVTouchable = this.BVTouchable = new Class ({
 	_touchStart: function (event) {
 		event.stop();
 		if (this.touches || event.length > 1) { this._touchCancel(event); return; }  // only-single touch for now
-		
 		this.element.getDocument().addEvents({
 			touchmove: this._mouseBound.touchMove,
 			touchend: this._mouseBound.touchEnd,
 			touchcancel: this._mouseBound.touchCancel
 		});
-	
+
 		this.touches = new BVTouches(event);
 		this.touchDidGoDown(this.touches);
 	},
-	
+
 	_touchMove: function (event) {
 		event.stop();
 		if (!this.touches) { return; }
@@ -103,14 +103,14 @@ var BVTouchable = this.BVTouchable = new Class ({
 		this.touches.updateWithEvent(event);
 		this.touchDidMove(this.touches);
 	},
-	
+
 	_touchEnd: function (event) {
 		event.stop();
 		if (!this.touches) { return; }
 
 		this.touches.count = 0;
 		this.touchDidGoUp(this.touches);
-		
+
 		delete this.touches;
 		this.element.getDocument().removeEvents({
 			touchmove: this._mouseBound.touchMove,
@@ -118,7 +118,7 @@ var BVTouchable = this.BVTouchable = new Class ({
 			touchcancel: this._mouseBound.touchCancel
 		});
 	},
-	
+
 	_touchCancel: function (event) {
 		this._touchEnd(event);
 	}
@@ -140,7 +140,7 @@ var BVTouches = this.BVTouches = new Class({
 		this.count = 1;
 		this.event = event;
 	},
-	
+
 	updateWithEvent: function (event) {
 		var dx = event.page.x - this.globalPoint.x;  // todo, transform to local coordinate space?
 		var dy = -event.page.y - this.globalPoint.y;
@@ -152,7 +152,7 @@ var BVTouches = this.BVTouches = new Class({
 		this.globalPoint.y = -event.page.y;
 		this.event = event;
 	},
-	
+
 	resetDeltaTranslation: function () {
 		this.deltaTranslation.x = 0;
 		this.deltaTranslation.y = 0;
