@@ -79,6 +79,7 @@ deploy: build
 	cp -r vendor/ $(BUILDDIR)/vendor
 	cp -r bower_components/ $(BUILDDIR)/bower_components
 	cp index.html $(BUILDDIR)/index.html
+	cp codebox.html $(BUILDDIR)/codebox.html
 	cp CNAME $(BUILDDIR)/CNAME
 	cp bundle.min.js $(BUILDDIR)/bundle.min.js
 	cd $(BUILDDIR) && \
