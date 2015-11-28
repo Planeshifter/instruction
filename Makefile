@@ -82,6 +82,7 @@ deploy: build
 	cp codebox.html $(BUILDDIR)/codebox.html
 	cp CNAME $(BUILDDIR)/CNAME
 	cp bundle.min.js $(BUILDDIR)/bundle.min.js
+	cp computeBundle.min.js $(BUILDDIR)/computeBundle.min.js
 	cd $(BUILDDIR) && \
 	sed -i 's/bundle.js/bundle.min.js/g'  index.html && \
 	git init . && \
@@ -97,7 +98,9 @@ deploy: build
 
 build:
 	$(BROWSERIFY) js/script.js --exclude jquery -t $(BABELIFY) --outfile bundle.js
+	$(BROWSERIFY) js/compute.js --outfile computeBundle.js
 	$(UGLIFY) bundle.js --compress --output bundle.min.js
+	$(UGLIFY) computeBundle.js --compress --output computeBundle.min.js
 
 # NOTES #
 

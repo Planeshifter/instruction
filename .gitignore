@@ -3,6 +3,8 @@
 #########
 bundle.js
 bundle.min.js
+computeBundle.js
+computeBundle.min.js
 
 # Directories #
 ###############

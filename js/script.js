@@ -8,17 +8,13 @@ var $ = require( 'jquery' ),
 	qNorm = require( 'distributions-normal-quantile' ),
 	pdfNorm = require( 'distributions-normal-pdf' ),
 	isnan = require( 'validate.io-nan' ),
+	linspace = require( 'compute-linspace' ),
 	round = require( 'compute-roundn' );
 
-global.compute = require( 'compute.io' );
-global.matrix = require( 'dstructs-matrix' );
 
 require( '@planeshifter/feedback-buttons' );
 
 // FUNCTIONS //
-
-var createGlobals = require( './createGlobals.js' );
-createGlobals( global.compute );
 
 function Plot( data, id, width, height ) {
 	this.data = data;
@@ -194,7 +190,6 @@ $( document ).ready( function onReady() {
 			this.alpha = 0.050;
 		},
 		update: function () {
-			console.log( this.alpha )
 			this.critical = round( qNorm( 1 - this.alpha / 2 ), -2 );
 			plot2.updateArea( this.critical, 'two-sided' );
 		}
