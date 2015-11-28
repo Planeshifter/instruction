@@ -1,0 +1,54 @@
+.axis path,
+.axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+
+.line {
+	fill: none;
+	stroke: #42BEC2;
+	stroke-width: 3px;
+}
+
+.area {
+	fill: #C24641
+}
+
+.display {
+	margin: 3em;
+	width: 50%;
+}
+
+.center {
+	align: center;
+}
+
+#quiz01 {
+	position: relative;
+	width: 55%;
+	/* border: solid 1px black; */
+	box-shadow: 0 0 2px darkgrey;
+	height: 350px;
+	background: white;
+}
+
+
+#quiz02 {
+	position: relative;
+	width: 55%;
+	/* border: solid 1px black; */
+	box-shadow: 0 0 2px darkgrey;
+	height: 250px;
+	background: white;
+}
+
+#fb_feedback {
+	left: 65%;
+	right: 3%;
+}
+
+.icon {
+	height: 20px;
+	width: 20px;
+}

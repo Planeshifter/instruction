@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Probability Distributions and Hypothesis Testing</title>
+
+		<!-- KaTeX -->
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+
+		<!-- KaTeX -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+
+		<!-- Tangle -->
+		<script type="text/javascript" src="vendor/Tangle.js"></script>
+
+		<!-- TangleKit (optional) -->
+		<link rel="stylesheet" href="vendor/TangleKit/TangleKit.css" type="text/css">
+		<!-- TangleKit code -->
+		<script type="text/javascript" src="vendor/TangleKit/mootools.js"></script>
+		<script type="text/javascript" src="vendor/TangleKit/sprintf.js"></script>
+		<script type="text/javascript" src="vendor/TangleKit/BVTouchable.js"></script>
+		<script type="text/javascript" src="vendor/TangleKit/TangleKit.js"></script>
+
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+		<!-- BOOTSTRAP -->
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+		<!-- Hyphenator -->
+		<script src="vendor/hyphenate.js" type="text/javascript"></script>
+
+		<!-- Browserified Code -->
+		<script type="text/javascript" src="bundle.min.js"></script>
+
+		<!-- BOOTSTRAP -->
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+		<!-- Feedback Buttons CSS -->
+		<link rel="stylesheet" href="https://rawgit.com/Planeshifter/feedback-buttons/63b1e364a4a872f503f040c98da20f5e42e61be6/css/styles.css" media="screen" charset="utf-8">
+
+		<!-- Tufte CSS -->
+		<link rel="stylesheet" href="css/tufte.css"/>
+		<link rel="stylesheet" href="css/custom.css" media="screen" charset="utf-8">
+	</head>
+	<body>
+		<article>
+			<h1> Probability Distributions and Hypothesis Testing </h1>
+			<p class="subtitle">A Short Course by Philipp Burckhardt</p>
+			<section>
+				<h2> Continuous and Discrete Probability Distributions</h2>
+			</section>
+			<section class="hyphenate">
+				<h2> Hypothesis Testing  </h2>
+				<div class="epigraph">
+					<blockquote>
+						<p>In relation to any experiment we may speak of this hypothesis as the "null hypothesis," and it should be noted that the null hypothesis is never proved or established, but is possibly disproved, in the course of experimentation. Every experiment may be said to exist only in order to give the facts a chance of disproving the null hypothesis.</p>
+						<footer>Ronald A. Fisher, “Design of Experiments”</footer>
+					</blockquote>
+				</div>
+				<div class="epigraph">
+					<blockquote>
+						<p>Beware of the problem of testing too many hypotheses; the more you torture the data, the more likely they are to confess, but confessions obtained under duress may not be admissible in the court of scientific opinion.</p>
+						<footer>Stephen M. Stigler, “Testing Hypotheses or fitting Models? Another Look at Mass Extinctions”</footer>
+					</blockquote>
+				</div>
+				<h3>Introduction</h3>
+				<p>Often when working with data, you might notice some pattern and observe an effect. The question which then
+					arises is whether this effect has arisen purely by chance or reflects some true property of the underlying
+					population. For example, consider the following scenario: Consuming a new weight loss drink for a period of two weeks has resulted
+					in an average decrease of body weight of 3 lbs among 30 particicpants. Hypothesis testing can help us to assess whether
+					such an observed effect is <i>significant</i>, i.e. whether it is unlikely that the effect is a product of chance.
+				</p>
+				<p>
+					The logic of hypothesis testing is similar to a mathematical proof by contradiction. To prove a statement by contradiction, you assume
+					temporarily that the statement is wrong. If this leads to a contraditction, you can then conclude that the statement must actually be true.
+					Hypothesis testing proceeds similarly, although it does not allow us to draw definitive conclusions, but will only give us probabilistic guarantees.
+				</p>
+				<p>
+					To test whether a certain effect exists, we
+					assume that it does not exist. This is the null hypothesis. It is denoted as H0. The alternative hypothesis, which corresponds
+					to the existence of an effect, is denoted as H1.
+					Whatever conclusion we reach from a test, we cannot be certain that we made the right decision. Depending on which hypothesis is true, there are two types of error we could have made:
+				</p>
+					<div id="errorTable" class="fb" style="width:60%;">
+					<table style="text-align:left">
+						<caption>Results of Hypothesis Test</caption>
+						<tr>
+							<th>Truth \ Decision</th>
+							<th>Fail to reject H0</th>
+							<th>Reject H0</th>
+						</tr>
+						<tr>
+							<td>H0</td>
+							<td>Correct</td>
+							<td>Type 1 error</td>
+						</tr>
+						<tr>
+							<td>H1</td	>
+							<td>Type 2 error</td>
+							<td>Correct</td>
+						</tr>
+					</table>
+					</div>
+				<p>
+					As can be glanced from the table, a <i>type 1 error</i> refers to a situation in which the null hypothesis
+					is rejected even though it is true, whereas the <i>type 2 error</i> refers to the scenario in which we fail to reject
+					the null hypothesis although it is incorrect.
+					In the context of our weight loss drink, we might want to test whether the drink is actually effective. If μ denotes the
+					true mean change after using the drink for a month, we would like to test
+				<p>
+					<div id="eqDrink"></div>
+				<p>
+					In setting up the null and alternative hypothesis, what we would like to show is usally set as the alternative such
+					that we would like to be able to reject the null. The reason for this choice is that the machinery of hypothesis testing
+					let's us control the probability of making a type 1 error. In fact, we are free to choose it: For each test we conduct, we pick a
+					significance level α which will be equal to the type 1 error probability. However, it is not possible to fix both error probabilities at a desired level.
+				</p>
+				<p>
+					Let's review some of the basic definitions of hypothesis testing:
+					<span class="marginnote">
+					Quiz
+					</span>
+				</p>
+				<div id="quiz01"></div>
+				<p>
+					To carry out an hypothesis test, the following steps are generally required:
+					<ol>
+						<li>A specific probability model for the data is assumed</li>
+						<li>The observed data is summarized into a test statistic with a known distribution under H0. The distribution of the test statistic lets us assess how unexpected the observed data are.</li>
+						<li>For a given significance level α, we obtain a critical value from the distribution of the test statistic. If the observed test statistic exceeds this value in magnitude, the null hypothesis is rejected.	</li>
+					</ol>
+				</p>
+				<p> Let us now consider in detail one of the simplest hypothesis testing scenarios, in which one would like to test whether an effect exists, i.e. whether the location parameter of a distribution is larger than zero.</p>
+				<h3>One-Sided Location Test</h3>
+				<p>The basic assumption for the z-Test to be applicable is that the data are drawn from a normal distribution with some mean μ and standard deviation σ:</p>
+				<div class="display" id="eqData"></div>
+				<p>Let's start by considering a situation in which you want to detect a positive effect. As described previously, you
+				will then choose the null hypothesis to cover the case of no or a negative effect, so that we have:</p>
+				<div class="display" id="eqHypo"></div>
+				<p>For the described situation, you can think of μ<sub>0</sub> as being equal to zero in the equation. However, there might be other scenarios where you might want to test whether the parameter exceeds a certain
+					threshold: For example, an environmental agency might need to assess whether the average emissions of a car exceed the allowed maximum or not.</p>
+				<p>The test statistic used for the z-Test is:</p>
+				<p class="display" id="eq1"></p>
+				<p>Given our distributional assumptions, the test statistic follows a standard normal distribution under the null hypothesis.
+				</p>
+				<p>Since its
+					distribution does not depend anymore on the unknown mean parameter, it is callled a <a data-toggle="tooltip" title="Function of the data and unobservable parameters whose distribution does not depend on the unknown parameters">pivotal quantity</a>.
+					This follows from some basic properties of the normal distribution.
+				</p>
+				<p>
+					Under H0, the sample mean is distributed as <span id="eqMeanDist"></span>. Since the normal distribution is a <a data-toggle="tooltip" title="For a random variable X whose CDF belongs to a location-scale family, the distribution function of Y = a + b * X belongs to the family, too.">location-scale distribution family</a>,
+					we know that subtracting μ<sub>0</sub> from x&#772; and dividing by the standard deviation gives us a standard normal random variable.
+				</p>
+				<p>
+					The PDF of our test statistic Z under the null is thus the famous bell-shaped curve displayed in the following plot:
+					<span class="marginnote">
+					Plot of the PDF of a standard normal distribution with mean zero and standard deviation one.
+					</span>
+				</p>
+				<div id="plotGaussian"></div>
+				<p>Large values of the test statistic are inconsistent
+				with the null hypothesis stated above, which means that we will reject it when we observe a value far into the right tail of the distribution. How far?
+					Recall that the hypothesis test is designed in a way as to ensure that the probability of committing a type 1 error is equal to the significance level α. Hence, we will
+					use as a <a data-toggle="tooltip" title="Value on the null distribution you compare with the test statistic to determine whether to reject H0. If the absolute value of the test statistic is greater than the critical value, you reject.">critical value</a> the
+					value z<sup>1-α</sup> for which α of the probability mass lies to the right.
+					A commonly chosen value for α is 0.05. We denote the area under the curve corresponding to values for which we reject H0 as the <i>rejection region</i>.
+				</p>
+				<p>
+					For the one-sided z-test, let us explore the rejection region for different significance levels:
+				</p>
+				<p id="example">
+					At a significance level of <span data-var="alpha" class="TKAdjustableNumber" data-min="0.01" data-max="0.5" data-step="0.005"></span>, the critical value, i.e. the value above which the null hypothesis is rejected, is equal to <b><span data-var="critical"></span></b>.
+					The resulting rejection region for the <span data-var="type"></span> location test is displayed as the shaded region in the following plot.
+				</p>
+				<div id="plot1" class="fb" style="width:50%"></div>
+				<p> Check your understanding by answering the following multiple-choice quiz:
+					<span class="marginnote">
+					Quiz
+					</span>
+				</p>
+				<div id="quiz02"></div>
+				<p>
+					<span class="newthought">Let us consider</span> the following example:
+					<label for="mn-demo" class="margin-toggle">&#8853;</label>
+					<input type="checkbox" id="mn-demo" class="margin-toggle"/>
+					<span class="marginnote">
+					Worked Example
+					</span>
+					A randomized control trial was conducted to assess the effectiveness of a new drug. For a sample of N = 400 patients, the average
+					effect was x&#772; = 0.3. It is assumed that the data are drawn from a normal distribution with known standard deviation σ = 2. We wish to test whether there is
+					a positive effect of the drug at a significance level of α = 0.01.
+					<ol>
+						<li>For the given α, we find a critical value of z = 2.33.</li>
+						<li>The observed test statistic is
+							<div class="display" id="eqZobs"></div>
+						</li>
+						<li>Since z<sub>obs</sub> > z, we reject the null hypothesis at α = 0.01 and conclude that there is sufficient evidence that the new drug is effective</li>
+					</ol>
+				</p>
+				<p>
+					In this test, the probability of having obtained a <a data-toggle="tooltip" title="Concluding that an effect is real when there is actually none">false positive</a> is α = 0.01.
+				</p>
+			</section>
+			<section>
+				<h2>Two-Sided Location Test</h2>
+				<p>You should consider using a two-sided hypothesis test whenever you are not interested in a directional effect,
+				but whether there is any effect at all. The hypotheses to be tested are now</p>
+				<div class="display" id="eqHypo2"></div>
+				<p id="example2">
+					At a significance level of <span data-var="alpha" class="TKAdjustableNumber" data-min="0.01" data-max="0.5" data-step="0.005"></span>, the upper critical value is <b><span data-var="critical"></span></b> and the lower one <b>-<span data-var="critical"></span></b>.
+					The resulting rejection region for the <span data-var="type"></span> two-sided location test is displayed as the shaded region in the following plot.
+				</p>
+				<div id="plot2" class="fb" style="width:50%"></div>
+				<p>
+				<span class="marginnote">
+				Worked Example
+				</span>
+				<span class="newthought">A researcher is interested</span> in the effectiveness of a new set of instructional materials for the classroom. He gathered data on how the grades of pupils at school changed on average after
+				using the new material. The change in GPA (Grade Point Average) after using the new material for 10 students was collected:
+				<iframe src="codebox.html" scrolling="no" style="border-style:none;width:95%;height:300px;"></iframe>
+				<br>
+				Is there sufficient evidence that the GPA changed after the new material was introduced? Conduct a two-sided hypothesis test at a
+				significance level of α = 0.05.
+				</p>
+				<ol>
+					<div id ="example3">
+						<li>For the given α, we find a critical value of z = 1.96. (try to verify using the interactive plot!)</li>
+						<li>
+							<nobr>
+							The mean of the data is <div data-var="mean" class="TKNumberField"></div>
+							and the standard deviation is <div data-var="sd" class="TKNumberField"></div>
+							Since we have <div data-var="obs" class="TKNumberField"></div> observations in total,
+							the observed test statistic evaluates to
+							</nobr>
+							<span class="display" id="eqZobs2"></span>
+							(Use the <code>mean</code> and <code>stdev</code> functions in above code box to calculate the mean and standard
+							deviation of the data, respectively. You can obtain the number of elements in the array via <code>x.length</code>)
+						</li>
+						<li>
+						<div data-var="conclusion" class="TKSwitch">
+							<span>Since |z<sub>obs</sub>| > z, we reject the null hypothesis at α = 0.01 and conclude that there is sufficient evidence that the new course material is effective.</span>
+							<span>Since |z<sub>obs</sub>| < z, we fail to reject the null hypothesis at α = 0.01 and conclude that it seems as if the new course material is <b>not</b> effective.</span>
+						</div>
+						</li>
+						<span id="gpaExerciseResult"><img class="icon" src="img/incorrect.svg" /> Answer is not correct</span>
+					</div>
+				</ol>
+			</section>
+			<section>
+				<h2>P-Values</h2>
+
+			</section>
+	</article>
+	</body>
+</html>
